@@ -6,6 +6,8 @@
 #ifndef __GRAPHICS2_H__
 #define __GRAPHICS2_H__
 
+#define _CRT_SECURE_NO_WARNINGS
+
 #define far
 #define huge
 #define random(range) (rand() % (range))
