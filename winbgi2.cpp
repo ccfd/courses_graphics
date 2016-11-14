@@ -1,3 +1,4 @@
+#define _CRT_SECURE_NO_WARNINGS
 //
 // winbgi.cpp  -- One of the files required to run BGI graphics programs
 //
