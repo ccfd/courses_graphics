@@ -306,6 +306,7 @@ inline void graphics(int sx, int sy)
 {
 	int GraphDriver=0,GraphMode=0;
 	initgraph( &GraphDriver, &GraphMode, "", sx, sy ); // otwarcie okna grafiki
+	setviewport(0, 0, sx, sy, 0);                      // zmiana obszaru rysowania
 }
 
 inline int clear() {
