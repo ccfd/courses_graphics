@@ -222,7 +222,7 @@ void getaspectratio PROTO((int *, int *));
 int getbkcolor PROTO((void));
 int getcolor PROTO((void));
 palettetype* getdefaultpalette PROTO((void));
-char* getdrivername PROTO((void));
+const char* getdrivername PROTO((void));
 void getfillpattern PROTO((char const *));
 void getfillsettings PROTO((fillsettingstype *));
 int getgraphmode PROTO((void));
