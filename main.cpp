@@ -3,10 +3,11 @@
 #include <math.h>
 #include "winbgi2.h"
 
-void main()
+int main()
 {
-	graphics(220, 220);
-  line(0,100,100,0);
-	wait();
-}
+    graphics(220, 220);
+    line(0,100,100,0);
+    wait();
 
+    return 0;
+}
