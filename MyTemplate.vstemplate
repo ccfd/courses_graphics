@@ -1,0 +1,24 @@
+<VSTemplate Version="3.0.0" xmlns="http://schemas.microsoft.com/developer/vstemplate/2005" Type="Project">
+  <TemplateData>
+    <Name>PodstawyProgramowania</Name>
+    <Description>Projekt z biblioteką graficzną do przedmiotu Podstawy Programowania na MEIL PW</Description>
+    <ProjectType>VC</ProjectType>
+    <ProjectSubType>
+    </ProjectSubType>
+    <SortOrder>1000</SortOrder>
+    <CreateNewFolder>true</CreateNewFolder>
+    <DefaultName>PodstawyProgramowania</DefaultName>
+    <ProvideDefaultName>true</ProvideDefaultName>
+    <LocationField>Enabled</LocationField>
+    <EnableLocationBrowseButton>true</EnableLocationBrowseButton>
+    <Icon>__TemplateIcon.ico</Icon>
+  </TemplateData>
+  <TemplateContent>
+    <Project TargetFileName="ProjektVisualStudio2022.vcxproj" File="ProjektVisualStudio2022.vcxproj" ReplaceParameters="true">
+      <ProjectItem ReplaceParameters="false" TargetFileName="$projectname$.vcxproj.filters">ProjektVisualStudio2022.vcxproj.filters</ProjectItem>
+      <ProjectItem ReplaceParameters="false" TargetFileName="main.cpp" OpenInEditor="true">main.cpp</ProjectItem>
+      <ProjectItem ReplaceParameters="false" TargetFileName="winbgi2.cpp">winbgi2.cpp</ProjectItem>
+      <ProjectItem ReplaceParameters="false" TargetFileName="winbgi2.h">winbgi2.h</ProjectItem>
+    </Project>
+  </TemplateContent>
+</VSTemplate>
