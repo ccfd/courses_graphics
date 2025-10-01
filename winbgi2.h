@@ -242,7 +242,7 @@ void getviewsettings PROTO((viewporttype *));
 int getx PROTO((void));
 int gety PROTO((void));
 void graphdefaults PROTO((void));
-char* grapherrormsg PROTO((int));
+// char* grapherrormsg PROTO((int));
 int graphresult PROTO((void));
 unsigned int imagesize PROTO((int, int, int, int));
 void initgraph PROTO((int *, int *, char const *,int , int));

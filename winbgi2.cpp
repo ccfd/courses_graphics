@@ -12,6 +12,30 @@
 
 #define MAX_PAGES 16
 
+#include <string>
+template <class T> class wstringhelper;
+template <> class wstringhelper <char> {
+	std::string str;
+public:
+	wstringhelper(const char* str_) : str(str_) {};
+	size_t size() const { return str.size(); }
+	operator const char* () const { return str.c_str(); }
+};
+template <> class wstringhelper <wchar_t> {
+	std::wstring str;
+public:
+	wstringhelper(const char* str_) {
+		std::string tmp1(str_);
+		std::wstring tmp2(tmp1.begin(), tmp1.end());
+		str = tmp2;
+	};
+	size_t size() const { return str.size(); }
+	operator const wchar_t* () const { return str.c_str(); }
+};
+template <class T> size_t strlen(const wstringhelper<T>& str) { return str.size(); }
+#define MYSTR wstringhelper< TCHAR >
+
+
 const double pi = 3.14159265358979323846;
 
 static HDC hdc[4];
@@ -384,6 +408,7 @@ class font_cache : public l2list {
 		return;	    
 	    }
 	}
+	MYSTR fontname(font_name[type]);
 	hFont = CreateFont(-height,
 			   width,
 			   direction*900,
@@ -397,7 +422,7 @@ class font_cache : public l2list {
 			   CLIP_DEFAULT_PRECIS,
 			   DEFAULT_QUALITY,
 			   font_family[type], 
-			   font_name[type]);
+			   fontname);
 	SelectObject(hdc[0], hFont);
 	SelectObject(hdc[1], hFont);
 	
@@ -518,13 +543,13 @@ static short WidedotBrushBitmap[8] =
 static short ClosedotBrushBitmap[8] = 
   {~0x44, ~0x00, ~0x11, ~0x00, ~0x44, ~0x00, ~0x11, ~0x00};
 	
-char* grapherrormsg(int code) {	
-    static char buf[256];
-    FormatMessage(FORMAT_MESSAGE_FROM_SYSTEM, 
-    	          NULL, code, 0, 
-    	          buf, sizeof buf, NULL);
-    return buf;
-}
+//LPTSTR grapherrormsg(int code) {
+//    static TCHAR buf[256];
+//    FormatMessage(FORMAT_MESSAGE_FROM_SYSTEM, 
+//    	          NULL, code, 0, 
+//    	          buf, sizeof buf, NULL);
+//    return buf;
+//}
 
 static int gdi_error_code;
 
@@ -826,11 +851,12 @@ static void text_output(int x, int y, const char* str)
 	SetTextColor(hdc[0], PALETTEINDEX(text_color+BG));
 	SetTextColor(hdc[1], PALETTEINDEX(text_color+BG));
     }
+	MYSTR mystr(str);
     if (bgiemu_handle_redraw || visual_page != active_page) { 
-        TextOut(hdc[1], x, y, str, strlen(str));
+        TextOut(hdc[1], x, y, mystr, strlen(mystr));
     }
     if (visual_page == active_page) { 
-        TextOut(hdc[0], x, y, str, strlen(str));
+        TextOut(hdc[0], x, y, mystr, strlen(mystr));
     } 
 }
 
@@ -863,7 +889,8 @@ int textheight(const char* str)
 {
     SIZE ss;
     select_font();
-    GetTextExtentPoint32(hdc[0], str, strlen(str), &ss);
+	MYSTR mystr(str);
+    GetTextExtentPoint32(hdc[0], mystr, strlen(mystr), &ss);
     return ss.cy;
 }
 
@@ -871,7 +898,8 @@ int textwidth(const char* str)
 {
     SIZE ss;
     select_font();
-    GetTextExtentPoint32(hdc[0], str, strlen(str), &ss);
+	MYSTR mystr(str);
+    GetTextExtentPoint32(hdc[0], mystr, strlen(mystr), &ss);
     return ss.cx;
 }
 
@@ -1961,8 +1989,10 @@ void initgraph(int* device, int* mode, char const* /*pathtodriver*/,
 
     gdi_error_code = grOk;
 
+	static MYSTR classname("BGIlibrary");
+
     if (wcApp.lpszClassName == NULL) { 
-	wcApp.lpszClassName = "BGIlibrary";
+	wcApp.lpszClassName = classname;
 	wcApp.hInstance = 0;
 	wcApp.lpfnWndProc = WndProc;
 	wcApp.hCursor = LoadCursor(NULL, IDC_ARROW);
@@ -2034,7 +2064,9 @@ void initgraph(int* device, int* mode, char const* /*pathtodriver*/,
 	if (size_width) window_width=size_width;
 	if (size_height) window_height=size_height;
 
-    hWnd = CreateWindow("BGIlibrary", "Windows BGI", 
+	MYSTR appname("BGIlibrary");
+	MYSTR winname("Windows BGI");
+    hWnd = CreateWindow(appname, winname, 
 			WS_OVERLAPPEDWINDOW,
 		        0, 0, window_width+BORDER_WIDTH, 
 			window_height+BORDER_HEIGHT,
